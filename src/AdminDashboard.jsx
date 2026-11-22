@@ -1930,26 +1930,36 @@ if (!businessSettings) {
       }}
     >
       <div style={styles.card}>
-        <h3 style={{ marginTop: 0 }}>Desktop & Mobile App</h3>
-        <p style={{ color: '#799090', fontSize: 13 }}>
-          Install LabaGO as a standalone app on this device for quick access.
-        </p>
+  <h3 style={{ marginTop: 0 }}>Download App (Desktop & Mobile)</h3>
+  <p style={{ color: '#799090', fontSize: 13 }}>
+    Install LabaGO on your computer, Android, or iPhone for quick access.
+  </p>
 
-        {isInstalled ? (
-          <button type="button" style={styles.secondaryButton} disabled>
-            App Already Installed
-          </button>
-        ) : canInstall ? (
-          <button type="button" style={styles.button} onClick={installApp}>
-            Install LabaGO App
-          </button>
-        ) : (
-          <p style={{ fontSize: 12, color: '#799090', marginBottom: 0 }}>
-            Open on your deployed HTTPS site (like Vercel) in Chrome or Edge to
-            install.
-          </p>
-        )}
-      </div>
+  {isInstalled ? (
+    <button type="button" style={styles.secondaryButton} disabled>
+      ✓ App Already Installed
+    </button>
+  ) : (
+    <button
+      type="button"
+      style={styles.button}
+      onClick={async () => {
+        if (canInstall) {
+          await installApp();
+        } else {
+          alert(
+            'To install LabaGO:\n\n' +
+              '• Desktop (Chrome / Edge): Click the Install icon on the right side of the address bar.\n' +
+              '• Android (Chrome): Tap the 3 dots (⋮) → "Install app".\n' +
+              '• iPhone / iPad (Safari): Tap Share → "Add to Home Screen".'
+          );
+        }
+      }}
+    >
+      Download LabaGO App
+    </button>
+  )}
+</div>
 
       <form style={styles.card} onSubmit={saveBusinessSettings}>
         <h3 style={{ marginTop: 0 }}>Business Information</h3>

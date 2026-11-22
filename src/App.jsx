@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { usePWAInstall } from './hooks/usePWAInstall';
 import {
   Droplets,
   Shirt,
@@ -68,6 +69,7 @@ const formatDate = (date) => {
 };
 
 function App({ user, profile, role, onSignOut }) {
+  const { canInstall, isInstalled, installApp } = usePWAInstall();
   const [screen, setScreen] = useState('home');
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -1361,6 +1363,26 @@ const getFullAddress = (address) =>
         <button onClick={() => alert('Profile editing coming soon!')}>
           Edit Profile <ChevronRight size={18} />
         </button>
+
+        {!isInstalled && (
+  <button
+    type="button"
+    onClick={async () => {
+      if (canInstall) {
+        await installApp();
+      } else {
+        alert(
+          'To install LabaGO:\n\n' +
+            '• Android (Chrome): Tap ⋮ → "Install app".\n' +
+            '• iPhone (Safari): Tap Share → "Add to Home Screen".\n' +
+            '• Desktop (Chrome / Edge): Click the Install icon in the address bar.'
+        );
+      }
+    }}
+  >
+    Download LabaGO App <ChevronRight size={18} />
+  </button>
+)}
 
         <button onClick={() => {
           setErrorMessage('');
